@@ -1,8 +1,22 @@
-FROM node:18-alpine AS build
+# Use the official Node.js image as the base image
+FROM node:18-alpine
+
+# Set the working directory in the container
 WORKDIR /app
+
+# Copy package.json and package-lock.json files to the container
 COPY package*.json ./
+
+# Install dependencies
 RUN npm install
+
+RUN npm install react-toastify
+
+# Copy the rest of the application code to the container
 COPY . .
-RUN npm run build
 
+# Expose the port that Vite uses (default: 5173)
+EXPOSE 5173
 
+# Start the Vite application
+CMD ["npm", "run", "dev", "--", "--host"]
